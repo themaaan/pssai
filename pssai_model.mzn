@@ -29,8 +29,11 @@ int: w = 7;
 set of int: HEIGHT = 1..numShifts;
 set of int: WIDTH = 1..w;
 
-output [ show(demand[i,j]) | i in HEIGHT, j in WIDTH];
-
+output [ 
+  if j=1 then "\n" else " " endif ++
+    show(demand[i,j])
+    | i in HEIGHT,j in WIDTH];
+    
 %% Cyclic Schedule
 set of int: HEIGHT_S = 1..groups;
 set of int: WIDTH_S = 1..w;
@@ -42,4 +45,9 @@ var 0..numShifts: Aplus;
 
 solve satisfy;
 
-output [show(S[i,j]) | i in HEIGHT, j in WIDTH];
+output ["\n"];
+
+output [ 
+  if j=1 then "\n" else " " endif ++
+    show(S[i,j])
+    | i in HEIGHT,j in WIDTH];
