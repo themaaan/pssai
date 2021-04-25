@@ -38,4 +38,13 @@ int: us;
 
 % Output S, n×w-matrix, where each Si,j ∈ A+ denotes the shift or day off that employee i is assigned during day j in the first period of the cycle.
 
+% solve satisfy;
+
 output [ show(R[i,j]) | i in HEIGHT, j in WIDTH];
+
+% Minimization objective 
+
+int: b;
+int: l_star = 5;
+
+solve minimize b;
