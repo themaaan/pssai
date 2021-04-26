@@ -1,3 +1,4 @@
+include "alldifferent.mzn";
 %%%%% Input %%%%%
 
 % Minimum number of consecutive shifts
@@ -37,12 +38,12 @@ output [
 %% Cyclic Schedule
 set of int: HEIGHT_S = 1..groups;
 set of int: WIDTH_S = 1..w;
-array[HEIGHT_S,WIDTH_S] of var int: S;
-
-var 0..numShifts: Aplus;
+array[HEIGHT_S,WIDTH_S] of var 0..numShifts: S;
 
 
-
+constraint forall(j in WIDTH)(
+             sum(i in HEIGHT)(S[i,j] == demand[i,j]) == 1 );
+           
 solve satisfy;
 
 output ["\n"];
@@ -50,4 +51,4 @@ output ["\n"];
 output [ 
   if j=1 then "\n" else " " endif ++
     show(S[i,j])
-    | i in HEIGHT,j in WIDTH];
+    | i in HEIGHT_S,j in WIDTH_S];
