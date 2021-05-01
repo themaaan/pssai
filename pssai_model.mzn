@@ -43,8 +43,32 @@ array[HEIGHT_S,WIDTH_S] of var 0..numShifts: S;
 
 constraint forall(j in WIDTH)(
              sum(i in HEIGHT)(S[i,j] == demand[i,j]) == 1 );
-           
+             
+% Amanii code:         
+enum SHIFT= {D,A,N,O};       
+enum day;
+array[groups,day] of var SHIFT: roster;
+int: Q = 6; int: q0 = 1;
+    
+constraint forall(i in day)(
+    sum(i in groups)(roster[i,j]==D)==req_d /\
+    sum(i in groups)(roster[i,j]==A)==req_a /\
+    sum(i in groups)(roster[i,j]==N)==req_n  
+
+   );
+constraint forall(i in groups)(
+             regular([roster[i,j] | j in day], Q, S, t, q0, S) /\
+             sum(j in DAY)(roster[i,j] == n) >= min_night
+           );
+ 
+
 solve satisfy;
+
+%when we want to minimize our objective function uncomment following code
+
+%%solve maximize sum(i in b)(l(i)-5)^2;
+
+%where we define b as the number of working blocks in a solution and l(i) to represent the length of working block
 
 output ["\n"];
 
